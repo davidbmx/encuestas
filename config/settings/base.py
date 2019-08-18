@@ -250,3 +250,5 @@ REST_FRAMEWORK = {
     )
 }
 
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
