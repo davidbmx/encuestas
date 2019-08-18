@@ -1,0 +1,7 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=encuestas
+POSTGRES_USER=hJhkhmhRsPAJBiJqthoBHKXzSUAXaJbg
+POSTGRES_PASSWORD=IP0hGS6hhCAj9F3KYfiUqj0AW9Kpb5B88LhoSLBr4RPNYZidcJTRqkjfeIODE0xb
