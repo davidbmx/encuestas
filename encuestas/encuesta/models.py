@@ -31,10 +31,10 @@ class DatosEncuestado(AbstractModel):
     ciudad = models.ForeignKey(Ciudad, on_delete=models.CASCADE)
     email = models.EmailField(max_length=200)
     tiene_hijos = models.BooleanField(default=False)
-    edad_hijos = models.PositiveIntegerField(default=0, null=True, blank=True)
+    edad_hijos = models.CharField(max_length=100, null=True, blank=True)
 
     def __str__(self):
-        return '{} {}'.format(nombres, apellidos)
+        return '{} {}'.format(self.nombres, self.apellidos)
 
 
 class Pregunta(AbstractModel):
@@ -68,8 +68,9 @@ class OpcionRespuesta(AbstractModel):
     
 
 class Respuesta(AbstractModel):
-    encuestado = models.ForeignKey(DatosEncuestado, on_delete=models.CASCADE)
-    pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE)
+    encuestado = models.ForeignKey(DatosEncuestado, on_delete=models.CASCADE, related_name='respuesta')
+    pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE, related_name='respuesta_pregunta')
+    relacion_pregunta = models.ForeignKey(Pregunta, on_delete=models.SET_NULL, blank=True, null=True, related_name='respuesta_relacionada')
     opcion_respuesta = models.ForeignKey(
         OpcionRespuesta,
         on_delete=models.SET_NULL,
@@ -78,7 +79,7 @@ class Respuesta(AbstractModel):
     detalle_respuesta = models.CharField(max_length=250, blank=True, null=True)
 
     def __str__(self):
-        return detalle_respuesta
+        return self.detalle_respuesta
 
 
 
