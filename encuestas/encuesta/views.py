@@ -4,6 +4,7 @@ from .models import Encuesta, Pregunta, OpcionRespuesta
 from encuestas.api.serializers import EncuestaModelSerializer
 
 def encuesta(request):
+    print(1)
     return render(request, 'encuestas/index.html')
 
 def encuestaUno(request):

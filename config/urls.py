@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.urls import include, path
+from django.urls import include, path, re_path
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import TemplateView
@@ -7,9 +7,9 @@ from django.views import defaults as default_views
 
 urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
-    path('', include(('encuestas.users.urls', 'users'), namespace='users')),
-    path('', include(('encuestas.encuesta.urls', 'encuesta'), namespace='encuesta')),
+    path('api/v1/', include(('encuestas.users.urls', 'users'), namespace='users')),
     path('api/v1/', include(('encuestas.api.urls', 'api'), namespace='api')),
+    re_path(r'^(?:.*)/?$', include(('encuestas.encuesta.urls', 'encuesta'), namespace='encuesta')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
