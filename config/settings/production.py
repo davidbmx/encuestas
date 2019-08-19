@@ -58,17 +58,23 @@ SECURE_CONTENT_TYPE_NOSNIFF = env.bool(
 # ------------------------------------------------------------------------------
 # https://django-storages.readthedocs.io/en/latest/#installation
 INSTALLED_APPS += ["storages"]  # noqa F405
-# DEFAULT_FILE_STORAGE = "storages.backends.gcloud.GoogleCloudStorage"
-# GS_BUCKET_NAME = env("DJANGO_GCP_STORAGE_BUCKET_NAME")
-# GS_DEFAULT_ACL = "publicRead"
-# # STATIC
-# # ------------------------
-# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-# # MEDIA
-# # ------------------------------------------------------------------------------
-# MEDIA_URL = f"https://storage.googleapis.com/{GS_BUCKET_NAME}/media/"
-# MEDIA_ROOT = f"https://storage.googleapis.com/{GS_BUCKET_NAME}/media/"
-
+AWS_ACCESS_KEY_ID = env("DJANGO_AWS_ACCESS_KEY_ID")
+# https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
+AWS_SECRET_ACCESS_KEY = env("DJANGO_AWS_SECRET_ACCESS_KEY")
+# https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
+AWS_STORAGE_BUCKET_NAME = env("DJANGO_AWS_STORAGE_BUCKET_NAME")
+# https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
+AWS_QUERYSTRING_AUTH = False
+# DO NOT change these unless you know what you're doing.
+_AWS_EXPIRY = 60 * 60 * 24 * 7
+# https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
+AWS_S3_OBJECT_PARAMETERS = {
+    "CacheControl": f"max-age={_AWS_EXPIRY}, s-maxage={_AWS_EXPIRY}, must-revalidate"
+}
+#  https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
+AWS_DEFAULT_ACL = None
+# https://django-storages.readthedocs.io/en/latest/backends/amazon-S3.html#settings
+AWS_S3_REGION_NAME = env("DJANGO_AWS_S3_REGION_NAME", default=None)
 # TEMPLATES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#templates
