@@ -6,7 +6,7 @@ from .base import env
 # https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 SECRET_KEY = env("DJANGO_SECRET_KEY")
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=[".mktestudios.com"])
+ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", "corrugated-cassava-d6qbs87jze2i4vrmt0cdekbu.herokudns.com", default=[".mktestudios.com"])
 
 # DATABASES
 # ------------------------------------------------------------------------------
