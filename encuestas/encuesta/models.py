@@ -58,6 +58,7 @@ class OpcionRespuesta(AbstractModel):
     pregunta = models.ForeignKey(Pregunta, on_delete=models.CASCADE, related_name='opciones')
     titulo = models.CharField(max_length=150, blank=True, null=True)
     especifica = models.BooleanField(default=False)
+    genero = models.CharField(max_length=1, default='N')
     imagen = models.ImageField(upload_to='opciones_respuestas/', blank=True, null=True)
 
     class Meta(AbstractModel.Meta):

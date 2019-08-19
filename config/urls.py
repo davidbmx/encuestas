@@ -10,8 +10,11 @@ urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
     path('api/v1/', include(('encuestas.users.urls', 'users'), namespace='users')),
     path('api/v1/', include(('encuestas.api.urls', 'api'), namespace='api')),
-    re_path(r'^(?:.*)/?', include(('encuestas.encuesta.urls', 'encuesta'), namespace='encuesta')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += [
+    re_path(r'^(?:.*)/?', include(('encuestas.encuesta.urls', 'encuesta'), namespace='encuesta')),
+]
 
 if settings.DEBUG:
     
