@@ -35,6 +35,7 @@ class DatosEncuestado(AbstractModel):
     email = models.EmailField(max_length=200)
     tiene_hijos = models.BooleanField(default=False)
     edad_hijos = models.CharField(max_length=100, null=True, blank=True)
+    genero_hijo = models.CharField(max_length=1, choices=GENEROS, default='H')
 
     def __str__(self):
         return '{} {}'.format(self.nombres, self.apellidos)

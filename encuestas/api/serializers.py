@@ -57,6 +57,7 @@ class DatosEncuestadoSave(serializers.Serializer):
     email = serializers.EmailField()
     tiene_hijos = serializers.BooleanField()
     edad_hijos = serializers.CharField(allow_blank=True)
+    genero_hijo = serializers.CharField()
 
 class DatosEncuestadoModel(serializers.ModelSerializer):
     class Meta:
@@ -92,7 +93,8 @@ class RespuestaGuardar(serializers.Serializer):
             'ciudad': datos_encuestado['ciudad'],
             'email': datos_encuestado['email'],
             'tiene_hijos': datos_encuestado['tiene_hijos'],
-            'edad_hijos': datos_encuestado['edad_hijos']
+            'edad_hijos': datos_encuestado['edad_hijos'],
+            'genero_hijo': datos_encuestado['genero_hijo'],
         }
         encuestado = DatosEncuestadoModel(data=data_enc)
         encuestado.is_valid(raise_exception=True)
