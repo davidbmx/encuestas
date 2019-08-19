@@ -7,6 +7,9 @@ class Ciudad(AbstractModel):
     def __str__(self):
         return self.nombre
 
+    class Meta(AbstractModel.Meta):
+        ordering = ['nombre']
+
 class Encuesta(AbstractModel):
     nombre = models.CharField(max_length=250)
     descripcion = models.CharField(max_length=200, blank=True, null=True)
