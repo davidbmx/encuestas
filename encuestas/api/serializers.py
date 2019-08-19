@@ -55,7 +55,7 @@ class DatosEncuestadoSave(serializers.Serializer):
     ciudad = serializers.IntegerField()
     email = serializers.EmailField()
     tiene_hijos = serializers.BooleanField()
-    edad_hijos = serializers.CharField()
+    edad_hijos = serializers.CharField(allow_blank=True)
 
 class DatosEncuestadoModel(serializers.ModelSerializer):
     class Meta:
