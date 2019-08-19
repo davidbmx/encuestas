@@ -11,6 +11,9 @@ class Encuesta(AbstractModel):
     nombre = models.CharField(max_length=250)
     descripcion = models.CharField(max_length=200, blank=True, null=True)
     slug = models.SlugField(max_length=200, unique=True)
+    valida_edad = models.BooleanField(default=False)
+    edad_desde = models.IntegerField(default=0)
+    edad_hasta = models.IntegerField(default=0)
     fecha_desde = models.DateTimeField()
     fecha_hasta = models.DateTimeField()
 

@@ -27,7 +27,8 @@ class EncuestaModelSerializer(serializers.ModelSerializer):
         model = Encuesta
         fields = [
             'nombre', 'descripcion', 'slug',
-            'fecha_desde','fecha_hasta', 'preguntas'
+            'fecha_desde','fecha_hasta', 'preguntas',
+            'valida_edad', 'edad_desde', 'edad_hasta'
         ]
 
 class CiudadModelSerializer(serializers.ModelSerializer):
@@ -94,8 +95,7 @@ class RespuestaGuardar(serializers.Serializer):
             'edad_hijos': datos_encuestado['edad_hijos']
         }
         encuestado = DatosEncuestadoModel(data=data_enc)
-        if not encuestado.is_valid(): 
-            print()
+        encuestado.is_valid(raise_exception=True)
         encuestado.save()
 
         respuestas = data['respuestas']
@@ -114,8 +114,7 @@ class RespuestaGuardar(serializers.Serializer):
                 data['relacion_pregunta'] = relacion_pregunta
 
             serializer = RespuestaSerializer(data=data)
-            if not serializer.is_valid():
-                print(serializer.errors)
+            serializer.is_valid(raise_exception=True)
 
             serializer.save()
         
