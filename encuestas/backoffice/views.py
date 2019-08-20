@@ -36,7 +36,7 @@ def encuesta(request, id_encuesta):
             respuestas_normalizado[resp.pregunta.id].append({
                 'titulo': titulo,
                 'detalle': resp.detalle_respuesta,
-                'pregunta': resp.pregunta,
+                'pregunta': resp.pregunta, 
                 'imagen': imagen
             })
 
@@ -159,7 +159,7 @@ def export_xls(request, id_encuesta):
             texto = []
             for i in value:
                 if i['imagen']:
-                    texto.append(i['imagen'])
+                    texto.append(i['imagen'].split('/')[-1])
                 
                 if i['titulo']:
                     texto.append('Opcion: {}'.format(i['titulo']))
