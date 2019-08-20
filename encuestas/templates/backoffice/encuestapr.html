@@ -15,67 +15,42 @@
     {% endfor %}
 {% endblock %}
 
-
 {% block content %}
-
-<div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <div class="d-sm-flex align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Dstos encuesta</h6>
-                <a target="__blank" href="{% url 'backoffice:exportar_encuesta' encuesta.id %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-              <thead>
-                <tr>
-                  <th>Nombres</th>
-                  <th>Apellidos</th>
-                  <th>Edad</th>
-                  <th>Genero</th>
-                  <th>Ciudad</th>
-                  <th>tiene_hijos</th>
-                  <th>edad_hijos</th>
-                  <th>genero_hijo</th>
-                  {% for p in preguntas %}
-                    <th >{{ p }}</th>
-                  {% endfor %}
-                </tr>
-              </thead>
-              <tfoot>
-                <tr>
-                    <th>Nombres</th>
-                    <th>Apellidos</th>
-                    <th>Edad</th>
-                    <th>Genero</th>
-                    <th>Ciudad</th>
-                    <th>tiene_hijos</th>
-                    <th>edad_hijos</th>
-                    <th>genero_hijo</th>
-                    {% for p in preguntas %}
-                        <th>{{ p }}</th>
-                    {% endfor %}
-                </tr>
-              </tfoot>
-              <tbody>
-                  {% for dato in encuestado %}
-                    <tr>
-                        <td>{{dato.nombres}}</td>
-                        <td>{{dato.apellidos}}</td>
-                        <td>{{dato.edad}}</td>
-                        <td>{{dato.genero}}</td>
-                        <td>{{dato.ciudad}}</td>
-                        <td>{{dato.tiene_hijos}}</td>
-                        <td>{{dato.edad_hijos}}</td>
-                        <td>{{dato.genero_hijo}}</td>
-                    </tr>
-                  {% endfor %}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+  <thead>
+    <tr>
+      <th>Nombres</th>
+      <th>Apellidos</th>
+      <th>Edad</th>
+      <th>Genero</th>
+      <th>Ciudad</th>
+      <th>tiene_hijos</th>
+      <th>edad_hijos</th>
+      <th>genero_hijo</th>
+      {% for p in preguntas %}
+        <th >{{ p }}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+        <th>Nombres</th>
+        <th>Apellidos</th>
+        <th>Edad</th>
+        <th>Genero</th>
+        <th>Ciudad</th>
+        <th>tiene_hijos</th>
+        <th>edad_hijos</th>
+        <th>genero_hijo</th>
+        {% for p in preguntas %}
+          <th >{{ p }}</th>
+        {% endfor %}
+    </tr>
+  </tfoot>
+  <tbody>
+    
+  </tbody>
+</table>
 {% endblock %}
 
 {% block js %}
@@ -84,7 +59,26 @@
 <script>
 
     $(document).ready(function() {
-        $('#dataTable').DataTable();
+        $('#dataTable').DataTable( {
+            "serverSide": true,
+            "processing": true,
+            ajax: "/backoffice/encuestalist/1/",
+            columns: [
+                { data: 'nombres' },
+                { data: 'apellidos' },
+                { data: 'edad' },
+                { data: 'genero' },
+                { data: 'ciudad' },
+                { data: 'tiene_hijos' },
+                { data: 'edad_hijos' },
+                { data: 'genero_hijos' },
+                { data: '3' },
+                { data: '2' },
+                { data: '3' },
+                { data: '4' },
+            ]
+        } );
     });
+    
 </script>
 {% endblock %}
