@@ -145,12 +145,16 @@ def export_xls(request, id_encuesta):
     
     for dato in nuevos_datos:
         row_num += 1
+        tiene_hijos = 'NO'
+        if dato['tiene_hijos']:
+            tiene_hijos = 'SI'
+        
         ws.write(row_num, 0, dato['nombres'], font_style)
         ws.write(row_num, 1, dato['apellidos'], font_style)
         ws.write(row_num, 2, dato['edad'], font_style)
         ws.write(row_num, 3, dato['genero'], font_style)
         ws.write(row_num, 4, dato['ciudad'], font_style)
-        ws.write(row_num, 5, dato['tiene_hijos'], font_style)
+        ws.write(row_num, 5, tiene_hijos, font_style)
         ws.write(row_num, 6, dato['edad_hijos'], font_style)
         ws.write(row_num, 7, dato['genero_hijo'], font_style)
         col_num = 7
