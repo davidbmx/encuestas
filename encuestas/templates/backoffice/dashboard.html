@@ -1,0 +1,98 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block title %} Dashboard {% endblock %}
+
+{% block titlepage %} Dashboard {% endblock %}
+
+{% block customurl %}
+    {% for i in encuestas %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'backoffice:list_encuesta' i.id %}">
+          <i class="fas fa-fw fa-table"></i>
+          <span>{{ i }}</span>
+        </a>
+    </li>
+    {% endfor %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    {% for i in encuestas %}
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-primary shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">{{ i.nombre }}</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">Total: {{i.datos_encuesta.all.count}}</div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-calendar fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  
+
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-success shadow h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">General</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">Total: {{ total }}</div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-calendar fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</div>
+
+<div class="row">
+  <div class="col-xl-8 col-lg-7">
+    <div class="card shadow mb-4">
+      <!-- Card Header - Dropdown -->
+      <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
+      </div>
+      <!-- Card Body -->
+      <div class="card-body">
+        <div class="chart-area">
+          <canvas id="encuestas"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script src="{% static "back/vendor/chart.js/Chart.min.js" %}"></script>
+<script>
+  new Chart(document.getElementById("encuestas"), {
+    type: 'pie',
+    data: {
+      labels: [{% for i in encuestas %}'{{i}}',{% endfor %}],
+      datasets: [{
+        label: "Encuestas realizadas",
+        backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+        data: [{% for i in encuestas %}{{i.datos_encuesta.all.count}},{% endfor %}]
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Encuestas realizadas'
+      }
+    }
+});
+</script>
+
+{% endblock %}

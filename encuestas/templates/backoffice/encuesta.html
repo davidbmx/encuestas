@@ -1,0 +1,105 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block title %} Dashboard {% endblock %}
+
+{% block titlepage %} Encuesta {{ encuesta }} {% endblock %}
+
+{% block customurl %}
+    {% for i in encuestas %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'backoffice:list_encuesta' i.id %}">
+          <i class="fas fa-fw fa-table"></i>
+          <span>{{ i }}</span>
+        </a>
+    </li>
+    {% endfor %}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <div class="d-sm-flex align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Dstos encuesta</h6>
+                <a target="__blank" href="{% url 'backoffice:exportar_encuesta' encuesta.id %}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>Nombres</th>
+                  <th>Apellidos</th>
+                  <th>Edad</th>
+                  <th>Genero</th>
+                  <th>Ciudad</th>
+                  <th>tiene_hijos</th>
+                  <th>edad_hijos</th>
+                  <th>genero_hijo</th>
+                  {% for p in preguntas %}
+                    <th >{{ p }}</th>
+                  {% endfor %}
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                    <th>Nombres</th>
+                    <th>Apellidos</th>
+                    <th>Edad</th>
+                    <th>Genero</th>
+                    <th>Ciudad</th>
+                    <th>tiene_hijos</th>
+                    <th>edad_hijos</th>
+                    <th>genero_hijo</th>
+                    {% for p in preguntas %}
+                        <th>{{ p }}</th>
+                    {% endfor %}
+                </tr>
+              </tfoot>
+              <tbody>
+                  {% for dato in encuestado %}
+                    <tr>
+                        <td>{{dato.nombres}}</td>
+                        <td>{{dato.apellidos}}</td>
+                        <td>{{dato.edad}}</td>
+                        <td>{{dato.genero}}</td>
+                        <td>{{dato.ciudad}}</td>
+                        <td>{{dato.tiene_hijos}}</td>
+                        <td>{{dato.edad_hijos}}</td>
+                        <td>{{dato.genero_hijo}}</td>
+                        {% for key,value in dato.respuestas.items %}
+                            <td>
+                                {% for i in value %}
+                                    {% if i.imagen %}
+                                        <img style="width: 100%; margin:5px;" src="{{i.imagen}}"/>
+                                    {% endif %}
+                                    {% if i.titulo %}
+                                        <p><b>Opcion:</b> {{i.titulo}}</p>
+                                    {% endif %}
+                                    {% if i.detalle %}
+                                        <p><b>Detalle:</b>{{i.detalle}}</p>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                  {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static "back/vendor/datatables/jquery.dataTables.min.js"%}"></script>
+<script src="{% static "back/vendor/datatables/dataTables.bootstrap4.min.js"%}"></script>
+<script>
+
+    $(document).ready(function() {
+        $('#dataTable').DataTable();
+    });
+</script>
+{% endblock %}

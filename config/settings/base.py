@@ -70,6 +70,7 @@ LOCAL_APPS = [
     "encuestas.users.apps.UsersAppConfig",
     "encuestas.encuesta.apps.EncuestasAppConfig",
     "encuestas.api.apps.ApiAppConfig",
+    "encuestas.backoffice.apps.BackofficeAppConfig",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -86,6 +87,9 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
 ]
 AUTH_USER_MODEL = "users.User"
+
+LOGIN_REDIRECT_URL = '/backoffice/dashboard/'
+LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 
 # PASSWORDS

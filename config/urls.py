@@ -8,8 +8,10 @@ from django.views.static import serve
 
 urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('api/v1/', include(('encuestas.users.urls', 'users'), namespace='users')),
     path('api/v1/', include(('encuestas.api.urls', 'api'), namespace='api')),
+    path('backoffice/', include(('encuestas.backoffice.urls', 'backoffice'), namespace='backoffice')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += [

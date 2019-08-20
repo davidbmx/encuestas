@@ -29,7 +29,7 @@ class DatosEncuestado(AbstractModel):
         ('H', 'HOMBRE'),
         ('M', 'MUJER'),
     )
-    encuesta = models.ForeignKey(Encuesta, on_delete=models.CASCADE, null=True)
+    encuesta = models.ForeignKey(Encuesta, on_delete=models.CASCADE, null=True, related_name='datos_encuesta')
     nombres = models.CharField(max_length=200)
     apellidos = models.CharField(max_length=200)
     edad = models.PositiveIntegerField()
@@ -82,12 +82,16 @@ class Respuesta(AbstractModel):
     opcion_respuesta = models.ForeignKey(
         OpcionRespuesta,
         on_delete=models.SET_NULL,
-        blank=True,null=True
+        blank=True,null=True,
+        related_name='respuesta_opcion'
     )
     detalle_respuesta = models.CharField(max_length=250, blank=True, null=True)
 
     def __str__(self):
         return self.detalle_respuesta
+
+    class Meta(AbstractModel.Meta):
+        ordering = ['id']
 
 
 
