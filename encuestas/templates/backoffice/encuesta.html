@@ -35,6 +35,7 @@
                   <th>Edad</th>
                   <th>Genero</th>
                   <th>Ciudad</th>
+                  <th>Email</th>
                   <th>tiene_hijos</th>
                   <th>edad_hijos</th>
                   <th>genero_hijo</th>
@@ -45,21 +46,22 @@
               </thead>
               <tfoot>
                 <tr>
-                    <th>Nombres</th>
-                    <th>Apellidos</th>
-                    <th>Edad</th>
-                    <th>Genero</th>
-                    <th>Ciudad</th>
-                    <th>tiene_hijos</th>
-                    <th>edad_hijos</th>
-                    <th>genero_hijo</th>
-                    {% for p in preguntas %}
-                        <th>{{ p }}</th>
-                    {% endfor %}
+                  <th>Nombres</th>
+                  <th>Apellidos</th>
+                  <th>Edad</th>
+                  <th>Genero</th>
+                  <th>Ciudad</th>
+                  <th>Email</th>
+                  <th>tiene_hijos</th>
+                  <th>edad_hijos</th>
+                  <th>genero_hijo</th>
+                  {% for p in preguntas %}
+                    <th >{{ p }}</th>
+                  {% endfor %}
                 </tr>
               </tfoot>
               <tbody>
-                  {% for dato in encuestado %}
+                  <!-- {% for dato in encuestado %}
                     <tr>
                         <td>{{dato.nombres}}</td>
                         <td>{{dato.apellidos}}</td>
@@ -69,23 +71,8 @@
                         <td>{{dato.tiene_hijos}}</td>
                         <td>{{dato.edad_hijos}}</td>
                         <td>{{dato.genero_hijo}}</td>
-                        {% for key,value in dato.respuestas.items %}
-                            <td>
-                                {% for i in value %}
-                                    {% if i.imagen %}
-                                        <img style="width: 100%; margin:5px;" src="{{i.imagen}}"/>
-                                    {% endif %}
-                                    {% if i.titulo %}
-                                        <p><b>Opcion:</b> {{i.titulo}}</p>
-                                    {% endif %}
-                                    {% if i.detalle %}
-                                        <p><b>Detalle:</b>{{i.detalle}}</p>
-                                    {% endif %}
-                                {% endfor %}
-                            </td>
-                        {% endfor %}
                     </tr>
-                  {% endfor %}
+                  {% endfor %} -->
               </tbody>
             </table>
           </div>
@@ -99,7 +86,24 @@
 <script>
 
     $(document).ready(function() {
-        $('#dataTable').DataTable();
+        $('#dataTable').DataTable({
+          "serverSide": true,
+          ajax: "{% url 'backoffice:list_encuesta_list' encuesta.id %}",
+          columns: [
+            { data: 'nombres'},
+            { data: 'apellidos'},
+            { data: 'edad'},
+            { data: 'genero'},
+            { data: 'ciudad'},
+            { data: 'email'},
+            { data: 'tiene_hijos'},
+            { data: 'edad_hijos'},
+            { data: 'genero_hijo'},
+            {% for p in preguntas %}
+              { data: '{{p.id}}'},
+            {% endfor %}
+          ]
+        });
     });
 </script>
 {% endblock %}
