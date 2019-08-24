@@ -175,8 +175,8 @@ def export_xls(request, id_encuesta):
         'genero_hijo',
     ]
 
-    for pregunta in preguntas:
-        columns.append(pregunta.nombre)
+    columns += [pregunta.nombre for pregunta in preguntas]
+        # columns.append(pregunta.nombre)
 
 
     for col_num in range(len(columns)):
@@ -188,6 +188,21 @@ def export_xls(request, id_encuesta):
     # vars data
     nuevos_datos = []
     for d in datos:
+        row_num += 1
+        tiene_hijos = 'NO'
+        if d.tiene_hijos:
+            tiene_hijos = 'SI'
+        
+        ws.write(row_num, 0, d.nombres, font_style)
+        ws.write(row_num, 1, d.apellidos, font_style)
+        ws.write(row_num, 2, d.edad, font_style)
+        ws.write(row_num, 3, d.genero, font_style)
+        ws.write(row_num, 4, d.ciudad.nombre, font_style)
+        ws.write(row_num, 5, tiene_hijos, font_style)
+        ws.write(row_num, 6, d.edad_hijos, font_style)
+        ws.write(row_num, 7, d.genero_hijo, font_style)
+
+
         respuestas_normalizado = {}
         for resp in d.respuesta.all():
             if resp.pregunta.id not in respuestas_normalizado:
@@ -205,39 +220,9 @@ def export_xls(request, id_encuesta):
                 'pregunta': resp.pregunta,
                 'imagen': imagen
             })
-
-        nuevos_datos.append({
-            'encuesta': d.encuesta,
-            'nombres': d.nombres,
-            'apellidos': d.apellidos,
-            'edad': d.edad,
-            'genero': d.genero,
-            'ciudad': d.ciudad.nombre,
-            'email': d.email,
-            'tiene_hijos': d.tiene_hijos,
-            'edad_hijos': d.edad_hijos,
-            'genero_hijo': d.genero_hijo,
-            'respuestas': respuestas_normalizado
-        })
-    #end vars data
-
-    
-    for dato in nuevos_datos:
-        row_num += 1
-        tiene_hijos = 'NO'
-        if dato['tiene_hijos']:
-            tiene_hijos = 'SI'
         
-        ws.write(row_num, 0, dato['nombres'], font_style)
-        ws.write(row_num, 1, dato['apellidos'], font_style)
-        ws.write(row_num, 2, dato['edad'], font_style)
-        ws.write(row_num, 3, dato['genero'], font_style)
-        ws.write(row_num, 4, dato['ciudad'], font_style)
-        ws.write(row_num, 5, tiene_hijos, font_style)
-        ws.write(row_num, 6, dato['edad_hijos'], font_style)
-        ws.write(row_num, 7, dato['genero_hijo'], font_style)
         col_num = 7
-        for key,value in dato['respuestas'].items():
+        for key,value in respuestas_normalizado.items():
             col_num += 1
             texto = []
             for i in value:
